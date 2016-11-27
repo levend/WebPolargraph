@@ -1,0 +1,14 @@
+- var rowClass = viewModel.commandQueue.isRunning ? "success" : "warning"
+- if (viewModel.portState.isOpen == false) { rowClass = "danger"}
+//p=JSON.stringify(viewModel)
+table.table.table-condensed
+  tbody
+    each command, index in viewModel.commandQueue.commandQueue
+      if (index == 0)
+        tr(class=rowClass)
+          th= index + 1
+          td= command
+      else
+        tr
+          th= index + 1
+          td= command

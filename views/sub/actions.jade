@@ -1,0 +1,35 @@
+//p= JSON.stringify(viewModel)
+
+.dropdown
+  button#portDropdown.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='true')
+    if (viewModel.portState.selectedPortName.length > 0)
+      =viewModel.portState.selectedPortName
+    else
+      | No port selected
+    span.caret
+  ul.dropdown-menu(aria-labelledby='portDropdown')
+    each portObject in viewModel.portState.ports
+      li
+        a(href='/controller/selectPort?portName='+portObject.comName)=portObject.comName
+
+if (!viewModel.portState.isOpen)
+  a#openPortButton.btn.btn-success.btn-block.fa.fa-plug &nbsp; Open port
+else
+  a#closePortButton.btn.btn-danger.btn-block.fa.fa-times &nbsp; Close port
+
+if (viewModel.portState.isOpen)
+  if (!viewModel.commandQueue.isRunning)
+    a#startQueueButton.btn.btn-success.btn-block.fa.fa-play &nbsp; Run queue
+  else
+    a#stopQueueButton.btn.btn-success.btn-block.fa.fa-pause &nbsp; Stop queue
+
+button#emptyQueueButton.btn.btn-danger.btn-block.fa.fa-trash &nbsp; Clear queue
+button#setHomeButton.btn.btn-primary.btn-block.fa.fa-thumb-tack &nbsp; Set home
+button#returnHomeButton.btn.btn-primary.btn-block.fa.fa-home &nbsp; Return home
+button#liftPenButton.btn.btn-primary.btn-block.fa.fa-arrow-up &nbsp; Lift pen
+button#lowerPenButton.btn.btn-primary.btn-block.fa.fa-arrow-down &nbsp; Lower pen
+
+form#file(action="/controller/uploadDesign" method="POST" enctype="multipart/form-data")
+  .form-group
+    input#fileInput.form-control(type="file", name="dataFile")
+    button#uploadDesignButton.btn.btn-primary.btn-block.fa.fa-upload(type="submit") &nbsp; Upload new design

@@ -1,0 +1,27 @@
+extends layout
+
+block content
+  script(src='javascripts/main.js')
+  h1 Polargraph web controller
+  div.container-fluid
+    div.row
+      div.col-md-11.bg-warning
+        p
+          b Status:
+    div.row
+      div.col-md-2
+        p.text-center
+          b Actions
+        div#actionPanelPlaceholder
+          include sub/actions
+
+      div.col-md-6
+        p.text-center
+          b Available designs
+        div#fileListPlaceHolder
+          include sub/uploadedFiles
+      div.col-md-3
+        p.text-center
+          b Command queue
+        div#commandQueuePlaceholder
+          include sub/commandQueue
