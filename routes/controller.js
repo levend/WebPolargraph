@@ -4,6 +4,7 @@ var Port = require('../businessLogic/serialPort')
 var Queue = require('../businessLogic/queue')
 var GCodeFileManager = require('../businessLogic/gCodeFileManager')
 var fs = require('fs')
+var Messager = require('../businessLogic/messager')
 
 function renderActionPanel(res) {
   var data = {}
@@ -32,13 +33,16 @@ function insertDefaultCommands() {
 
 function serialEventParser(message) {
 
+  Messager.sendReceived(message)
+
   if (Queue.isRunning && message=="READY") {
     //get the top message from the queue
     var topMessage = Queue.peek()
     if (topMessage) {
-      Port.sendMessage(topMessage, function(error) {
+      Port.sendMessage(topMessage.msg, function(error) {
         if (error == null) {
-          Queue.pop()
+          var removed = Queue.pop()
+          Messager.deleteFromQueue(removed.id)
         }
       })
     }
@@ -46,6 +50,7 @@ function serialEventParser(message) {
 }
 
 router.post('/openPort',function (req, res) {
+  Messager.sendReceived("Anyad")
   Port.open(serialEventParser,function (success) {
 
     if (success) {

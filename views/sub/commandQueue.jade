@@ -5,10 +5,10 @@ table.table.table-condensed
   tbody
     each command, index in viewModel.commandQueue.commandQueue
       if (index == 0)
-        tr(class=rowClass)
+        tr(id=command.id, class=rowClass)
           th= index + 1
-          td= command
+          td= command.msg
       else
-        tr
+        tr(id=command.id)
           th= index + 1
-          td= command
+          td= command.msg

@@ -77,4 +77,23 @@ $( function() {
   }
 
   bindActionButtons()
+
+  var socket = io.connect('http://localhost:3000')
+
+  socket.on('serialMessage', function (data) {
+    console.log("SERIAL MESSAGE:" + data.message)
+    $("#statusRow").text("Status: "+data.message)
+  });
+
+  socket.on('queueMessage', function (data) {
+    console.log("QUEUE MESSAGE:" + data.identifier)
+    var rowToDelete = $("#"+data.identifier)
+    var nextRow = rowToDelete.next()
+
+    nextRow.addClass("success")
+    rowToDelete.remove()
+
+  });
+
+
 } );

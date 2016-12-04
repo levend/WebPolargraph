@@ -47,9 +47,8 @@ SerialPort.prototype.getPorts = function(callback) {
   Port.list(function (err, ports) {
     ports.forEach(function(port) {
 
-      console.log(port.comName)
-      console.log(port.pnpId)
-      console.log(port.manufacturer)
+      console.info(port.comName)
+
     });
     self.ports = ports
     if (callback) {

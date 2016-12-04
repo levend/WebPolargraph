@@ -1,3 +1,5 @@
+var UUID = require('uuid')
+
 var Queue = function() {
   this.commandQueue = new Array()
   this.pointer = -1
@@ -10,7 +12,7 @@ Queue.prototype.loadData = function(data) {
   data.split(';').every(function(elem) {
     elem = elem.trim()
     console.log('Inserting element: %s',elem)
-    this.commandQueue.push(elem)
+    this.append(elem)
   })
 
   //set the first element if there are any
@@ -40,12 +42,20 @@ Queue.prototype.stop = function () {
   this.isRunning = false
 }
 
+//insert a message to the end of the queue
 Queue.prototype.append = function (command) {
-  this.commandQueue.push(command)
+  var m = {}
+  m.id = UUID.v4()
+  m.msg = command
+  this.commandQueue.push(m)
 }
 
+//insert a message to the beginning of the queue
 Queue.prototype.insert = function (command) {
-  this.commandQueue.unshift(command)
+  var m = {}
+  m.id = UUID.v4()
+  m.msg = command
+  this.commandQueue.unshift(m)
 }
 
 Queue.prototype.peek = function () {
