@@ -78,7 +78,11 @@ $( function() {
 
   bindActionButtons()
 
-  var socket = io.connect('http://localhost:3000')
+  var socket = io.connect(window.location.origin)
+
+  socket.on('connect', function(){
+    console.log('Socket connected: %s',socket.id);
+  });
 
   socket.on('serialMessage', function (data) {
     console.log("SERIAL MESSAGE:" + data.message)
